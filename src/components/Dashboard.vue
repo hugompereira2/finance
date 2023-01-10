@@ -176,12 +176,13 @@ const resp = {
 };
 
 const currencies = ref();
+const finance = ref();
 const bitcoin = ref();
 const stocks = ref();
 const taxes = ref();
 
 const loadFinance = async () => {
-  // finance.value = await getFinance();
+  finance.value = await getFinance();
   delete resp.results.currencies.source;
   delete resp.results.currencies.BTC;
   

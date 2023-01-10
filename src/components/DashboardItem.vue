@@ -98,12 +98,11 @@ small {
 }
 .flex-row {
   display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   gap: 30px 15px;
 }
 .column-item {
-  width: 320px;
+  width: 310px;
   display: flex;
   flex-direction: column;
   align-items: center;

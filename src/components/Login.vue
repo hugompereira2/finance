@@ -6,6 +6,67 @@ import EcosystemIcon from "./icons/IconEcosystem.vue";
 import CommunityIcon from "./icons/IconCommunity.vue";
 import SupportIcon from "./icons/IconSupport.vue";
 import { useRouter, RouterLink } from "vue-router";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { ref } from "vue";
+
+const email = ref("");
+const name = ref("");
+const password = ref("");
+
+const router = useRouter();
+
+const register = async (e) => {
+  try {
+    e.preventDefault();
+
+    const resp = await createUserWithEmailAndPassword(
+      getAuth(),
+      email.value,
+      password.value
+    );
+
+    // await resp?.updateProfile({
+    //   displayName: "Hugo",
+    // });
+
+    // console.log(user);
+
+    localStorage.setItem(
+      "user",
+      JSON.stringify({
+        token: resp.user.accessToken,
+        email: resp.user.email,
+        name: resp.user.displayName,
+      })
+    );
+    router.push("/finance");
+
+    // createUserWithEmailAndPassword(getAuth(), email.value, password.value)
+    //   .then((userCredential) => {
+    //     // Signed in
+    //     userCredential
+    //       .updateProfile({
+    //         displayName: "Hugo",
+    //       })
+    //       .then((user) => {
+    //         console.log(user);
+    //         localStorage.setItem(
+    //           "user",
+    //           JSON.stringify({
+    //             token: userCredential.user.accessToken,
+    //             email: userCredential.user.email,
+    //             name: userCredential.user.displayName,
+    //           })
+    //         );
+    //         router.push("/finance");
+    //       });
+    //     // ...
+    //   })
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  }
+};
 </script>
 
 <template>
@@ -14,16 +75,20 @@ import { useRouter, RouterLink } from "vue-router";
     <h3>Enter your Username and Password</h3>
     <form>
       <div class="form-input">
-        <label for="username">Username</label>
-        <input id="username" name="username" type="text" />
+        <label for="username">E-mail</label>
+        <input id="email" name="email" type="text" v-model="email" />
       </div>
+      <!-- <div class="form-input">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" v-model="name" />
+      </div> -->
       <div class="form-input">
         <label>Password</label>
-        <input type="password" />
+        <input type="password" name="password" v-model="password" />
       </div>
       <router-link to="/about">Create Account</router-link>
       <div class="submit-action">
-        <button type="submit">Login</button>
+        <button @click="register" type="submit">Login</button>
       </div>
     </form>
   </div>
