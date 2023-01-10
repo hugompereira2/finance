@@ -1,12 +1,11 @@
 <script setup>
 import Dashboard from "../components/Dashboard.vue";
-
+import Navbar from "../components/Navbar.vue";
 </script>
 
 <template>
-  <div class="about">
-    <Dashboard />
-  </div>
+  <Navbar />
+  <Dashboard />
 </template>
 
 <style scoped>
