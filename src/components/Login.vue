@@ -1,12 +1,13 @@
 <script setup>
-import WelcomeItem from "./WelcomeItem.vue";
-import DocumentationIcon from "./icons/IconDocumentation.vue";
-import ToolingIcon from "./icons/IconTooling.vue";
-import EcosystemIcon from "./icons/IconEcosystem.vue";
-import CommunityIcon from "./icons/IconCommunity.vue";
-import SupportIcon from "./icons/IconSupport.vue";
+import finance from "../assets/finance.svg";
 import { useRouter, RouterLink } from "vue-router";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { Form, Field, ErrorMessage } from "vee-validate";
+import { validateEmail, validatePassword } from "../validation/validation";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { ref } from "vue";
 
 const email = ref("");
@@ -67,16 +68,45 @@ const register = async (e) => {
     const errorMessage = error.message;
   }
 };
+
+const login = async (values) => {
+  signInWithEmailAndPassword(getAuth(), values.email, values.password)
+    .then((userCredential) => {
+      // Signed in
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          token: userCredential.user.accessToken,
+          email: userCredential.user.email,
+          name: userCredential.user.displayName,
+        })
+      );
+      router.push("/finance");
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+};
 </script>
 
 <template>
   <div class="login">
+    <img class="finance-logo" :src="finance" alt="Finance" />
     <h1>Login</h1>
-    <h3>Enter your Username and Password</h3>
-    <form>
+    <h3>Enter your E-mail and Password</h3>
+    <Form @submit="login">
       <div class="form-input">
         <label for="username">E-mail</label>
-        <input id="email" name="email" type="text" v-model="email" />
+        <Field
+          id="email"
+          name="email"
+          type="text"
+          v-model="email"
+          :rules="validateEmail"
+        />
+        <ErrorMessage class="red-error" name="email" />
       </div>
       <!-- <div class="form-input">
         <label for="name">Name</label>
@@ -84,13 +114,19 @@ const register = async (e) => {
       </div> -->
       <div class="form-input">
         <label>Password</label>
-        <input type="password" name="password" v-model="password" />
+        <Field
+          type="password"
+          name="password"
+          v-model="password"
+          :rules="validatePassword"
+        />
+        <ErrorMessage class="red-error" name="password" />
       </div>
       <router-link to="/about">Create Account</router-link>
       <div class="submit-action">
-        <button @click="register" type="submit">Login</button>
+        <button type="submit">Login</button>
       </div>
-    </form>
+    </Form>
   </div>
 </template>
 
@@ -134,6 +170,10 @@ button[type="submit"] {
 button[type="submit"]:hover {
   opacity: 0.85;
 }
+.finance-logo {
+  height: 80px;
+  width: 100%;
+}
 .submit-action {
   width: 100%;
   text-align: center;
@@ -154,5 +194,12 @@ button[type="submit"]:hover {
   background: white;
   padding: 24px 24px 12px 24px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+@media screen and (max-width: 500px) {
+  .login {
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+  }
 }
 </style>

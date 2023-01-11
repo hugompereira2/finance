@@ -107,4 +107,9 @@ small {
   flex-direction: column;
   align-items: center;
 }
+@media screen and (max-width: 500px) {
+  .flex-row {
+    justify-content: center;
+  }
+}
 </style>

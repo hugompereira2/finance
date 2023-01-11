@@ -185,7 +185,7 @@ const loadFinance = async () => {
   finance.value = await getFinance();
   delete resp.results.currencies.source;
   delete resp.results.currencies.BTC;
-  
+
   currencies.value = resp.results.currencies;
   bitcoin.value = resp.results.bitcoin;
   stocks.value = resp.results.stocks;
@@ -196,35 +196,47 @@ onMounted(loadFinance);
 </script>
 
 <template>
-  <div class="dashboard">
-    <DashboardItem
-      v-if="currencies"
-      title="COTAÇÃO DAS PRINCIPAIS MOEDAS PARA O REAL"
-      :items="currencies"
-      divider
-      origin
-    />
-    <DashboardItem
-      v-if="bitcoin"
-      title="COTAÇÃO DO BITCOIN NAS PRINCIPAIS CORRETORAS"
-      :items="bitcoin"
-      divider
-    />
-    <DashboardItem
-      v-if="stocks"
-      title="ÍNDICES DE BOLSAS DE VALORES PELO MUNDO"
-      :items="stocks"
-      divider
-    />
-    <DashboardItem
-      v-if="taxes"
-      title="PREÇO E VARIAÇÃO DE AÇÕES NA BOLSA DE VALORES BOVESPA"
-      :items="taxes"
-    />
+  <div class="dashboard-container">
+    <div class="dashboard">
+      <DashboardItem
+        v-if="currencies"
+        title="COTAÇÃO DAS PRINCIPAIS MOEDAS PARA O REAL"
+        :items="currencies"
+        divider
+        origin
+      />
+      <DashboardItem
+        v-if="bitcoin"
+        title="COTAÇÃO DO BITCOIN NAS PRINCIPAIS CORRETORAS"
+        :items="bitcoin"
+        divider
+      />
+      <DashboardItem
+        v-if="stocks"
+        title="ÍNDICES DE BOLSAS DE VALORES PELO MUNDO"
+        :items="stocks"
+        divider
+      />
+      <DashboardItem
+        v-if="taxes"
+        title="PREÇO E VARIAÇÃO DE AÇÕES NA BOLSA DE VALORES BOVESPA"
+        :items="taxes"
+      />
+    </div>
   </div>
 </template>
 
 <style scoped>
+.dashboard-container {
+  background: #313a46;
+}
+.dashboard {
+  max-width: 1440px;
+  padding: 25px;
+  margin: 0 auto;
+  /* border-radius: 12px; */
+  background: #313a46;
+}
 h1 {
   text-align: center;
   margin-bottom: 24px;
@@ -234,10 +246,5 @@ small {
   padding: 3px 5px;
   border-radius: 10px;
   color: white;
-}
-.dashboard {
-  padding: 25px;
-  /* border-radius: 12px; */
-  background: #313a46;
 }
 </style>
