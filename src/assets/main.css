@@ -17,6 +17,10 @@
   color: rgb(255, 33, 33);
 }
 
+label, h1, h2, h3, span, small {
+  font-family: 'Inter', sans-serif;
+}
+
 a,
 .green {
   text-decoration: none;

@@ -1,11 +1,11 @@
 <script setup>
-import finance from "../assets/finance.svg";
-import user_icon from "../assets/user.svg";
-import user_white from "../assets/user_white.svg";
-import arrow_down from "../assets/arrow_down.svg";
-import logout from "../assets/logout.svg";
-import logout_white from "../assets/logout_white.svg";
-import close from "../assets/close.svg";
+import finance from "../assets/svg/finance.svg";
+import user_icon from "../assets/svg/user.svg";
+import user_white from "../assets/svg/user_white.svg";
+import arrow_down from "../assets/svg/arrow_down.svg";
+import logout from "../assets/svg/logout.svg";
+import logout_white from "../assets/svg/logout_white.svg";
+import close from "../assets/svg/close.svg";
 import { useRouter, RouterLink } from "vue-router";
 import { getAuth, onIdTokenChanged } from "firebase/auth";
 import { getUserLocalStorage } from "../helper/helper";

@@ -3,7 +3,7 @@ import { onMounted, ref } from "vue";
 import { formatterBRL } from "../helper/helper";
 import { getHistory } from "../api/index";
 import { LineChart } from "vue-chart-3";
-import information from "../assets/information_icon.svg";
+import information from "../assets/svg/information_icon.svg";
 import { Chart, registerables } from "chart.js";
 
 Chart.register(...registerables);
@@ -118,7 +118,11 @@ onMounted(handleItems);
     </div>
   </div>
   <div class="chart-layer" v-show="showChart" @click="showChart = false" />
-  <LineChart class="line-chart" v-show="showChart" :chartData="chartData" />
+  <LineChart
+    class="line-chart"
+    v-show="showChart"
+    :chartData="chartData"
+  />
   <div v-show="divider" class="divider" />
 </template>
 
@@ -166,7 +170,8 @@ small {
   margin: 24px 0;
   height: 1px;
   width: 100%;
-  background: #e3eaef;
+  border-radius: 12px;
+  background: #ffffff;
 }
 .pointer {
   cursor: pointer;
@@ -188,13 +193,24 @@ small {
 }
 .column-item {
   width: 310px;
+  background: #4f5052;
+  padding: 24px 12px;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: all 0.5s;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 6px;
+}
+.column-item:hover {
+  background: #757679;
 }
 @media screen and (max-width: 500px) {
   .line-chart {
     width: 90vw;
+  }
+  h1 {
+    font-size: 1.5rem;
   }
 }
 </style>

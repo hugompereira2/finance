@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import finance from "../assets/finance.svg";
+import finance from "../assets/svg/finance.svg";
 import { useRouter, RouterLink } from "vue-router";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import {
