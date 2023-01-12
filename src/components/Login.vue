@@ -3,14 +3,20 @@ import finance from "../assets/finance.svg";
 import { useRouter, RouterLink } from "vue-router";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import { validateEmail, validatePassword } from "../validation/validation";
+import { getUserLocalStorage } from "../helper/helper";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 const email = ref("");
 const password = ref("");
 const errorMessageApi = ref(null);
 
 const router = useRouter();
+
+const verifyUserLoggedin = () => {
+  const user = getUserLocalStorage();
+  if (user) router.push("/finance");
+};
 
 const login = async (values) => {
   signInWithEmailAndPassword(getAuth(), values.email, values.password)
@@ -30,6 +36,8 @@ const login = async (values) => {
       errorMessageApi.value = errorMessage;
     });
 };
+
+onMounted(verifyUserLoggedin);
 </script>
 
 <template>
