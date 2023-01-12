@@ -17,21 +17,5 @@ export default defineConfig(({ mode }) => {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       }
     },
-    server: {
-      proxy: {
-        "/api": {
-          target: `https://api.hgbrasil.com/finance?format=json-cors&key=${env.VITE_HGBRASIL_API_KEY}`,
-          changeOrigin: true,
-          secure: false,
-          rewrite: (path) => path.replace(/^\/api/, ""),
-        },
-        "/economia": {
-          target: "https://economia.awesomeapi.com.br/json/daily",
-          changeOrigin: true,
-          secure: false,
-          rewrite: (path) => path.replace(/^\/economia/, ""),
-        },
-      }
-    }
   }
 })
