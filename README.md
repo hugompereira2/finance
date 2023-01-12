@@ -1,35 +1,23 @@
-# finance
+<h1 align="center"> Finance | Front-End </h1>
 
-This template should help get you started developing with Vue 3 in Vite.
+<div align="center">
+  <sub> Made with 💖 by
+    <a href="https://github.com/hugompereira2">Hugo Mendonça Pereira</a>
+  </sub>
+</div>
 
-## Recommended IDE Setup
+## 🚀 Technologies
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+* [Vue](https://vuejs.org/)      
+* [Firebase](https://firebase.google.com/)      
 
-## Customize configuration
+## :checkered_flag: Instructions
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+**Install dependencies**
 
-## Project Setup
+> npm install
 
-```sh
-npm install
-```
+**Start the application**
 
-### Compile and Hot-Reload for Development
+> npm run dev
 
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
