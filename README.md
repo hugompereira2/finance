@@ -8,7 +8,8 @@
 
 ## 🚀 Technologies
 
-* [Vue](https://vuejs.org/)      
+* [Vue](https://vuejs.org/)
+* [Vite](https://vitejs.dev/) 
 * [Firebase](https://firebase.google.com/)      
 
 ## :checkered_flag: Instructions
