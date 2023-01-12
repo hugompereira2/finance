@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         "/api": {
-          target: `https://api.hgbrasil.com/finance?key=${env.VITE_HGBRASIL_API_KEY}`,
+          target: `https://api.hgbrasil.com/finance?format=json-cors&key=${env.VITE_HGBRASIL_API_KEY}`,
           changeOrigin: true,
           secure: false,
           rewrite: (path) => path.replace(/^\/api/, ""),
