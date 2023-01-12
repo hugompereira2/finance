@@ -1,30 +1,29 @@
 import axios from "axios";
 
-const api = axios.create({
-  baseURL: "https://api.hgbrasil.com/",
-  headers: {
-    'content-type': 'application/json; charset=utf-8',
-    'Access-Control-Allow-Origin': '*'
-  }
-})
-
-// axios.create({
-//     headers: {
-//         "content-type":	"application/json; charset=utf-8",
-//         'Access-Control-Allow-Origin': '*',
-
-//     }
-// });
-
-export const getFinance = () => {
-  api.get("finance", {
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
-      'Access-Control-Allow-Origin': '*'
-    }
-  }).then((response) => {
+export const getFinance = async () => {
+  try {
+    const response = axios.get("api", {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
+    })
     return response;
-  })
+  } catch (error) {
+    return error.message;
+  }
 }
 
-export default api;
+export const getHistory = async (currency = "USD") => {
+  try {
+    const response = axios.get(`economia`+ `/${currency}-BRL/5`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
+    })
+    return response;
+  } catch (error) {
+    return error.message;
+  }
+}

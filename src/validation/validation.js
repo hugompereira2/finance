@@ -15,10 +15,20 @@ export const validatePassword = (value) => {
     if (!value) {
         return 'This field is required';
     }
-    console.log(value.length)
     if (value.length <= 6) {
         return 'this field must have more than 6 characters';
     }
-    
+
+    return true;
+}
+
+export const validateName = (value) => {
+    if (!value) {
+        return 'This field is required';
+    }
+    if (value.length <= 3) {
+        return 'this field must have more than 3 characters';
+    }
+
     return true;
 }

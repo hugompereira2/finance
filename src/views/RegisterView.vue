@@ -1,15 +1,15 @@
 <script setup>
-import Login from "../components/Login.vue";
+import Register from "../components/Register.vue";
 </script>
 
 <template>
-  <div class="container-login">
-    <Login />
+  <div class="container-register">
+    <Register />
   </div>
 </template>
 
 <style scoped>
-.container-login {
+.container-register {
   background: #e4e6ed;
   display: flex;
   justify-content: center;

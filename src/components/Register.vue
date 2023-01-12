@@ -1,44 +1,64 @@
 <script setup>
+import { ref } from "vue";
 import finance from "../assets/finance.svg";
 import { useRouter, RouterLink } from "vue-router";
 import { Form, Field, ErrorMessage } from "vee-validate";
-import { validateEmail, validatePassword } from "../validation/validation";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { ref } from "vue";
+import {
+  getAuth,
+  updateProfile,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+import {
+  validateEmail,
+  validatePassword,
+  validateName,
+} from "../validation/validation";
 
 const email = ref("");
-const password = ref("");
+const isLoading = ref(false);
 const errorMessageApi = ref(null);
+const name = ref("");
+const password = ref("");
 
 const router = useRouter();
 
-const login = async (values) => {
-  signInWithEmailAndPassword(getAuth(), values.email, values.password)
-    .then((userCredential) => {
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          token: userCredential.user.accessToken,
-          email: userCredential.user.email,
-          name: userCredential.user.displayName,
-        })
-      );
-      router.push("/finance");
-    })
-    .catch((error) => {
-      const errorMessage = error.message;
-      errorMessageApi.value = errorMessage;
-    });
+const register = async (value) => {
+  try {
+    isLoading.value = true;
+    await createUserWithEmailAndPassword(getAuth(), value.email, value.password)
+      .then(function () {
+        updateProfile(getAuth().currentUser, {
+          displayName: value.name,
+        });
+
+        const user = getAuth().currentUser;
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            token: user.accessToken,
+            email: user.email,
+            name: value.name,
+          })
+        );
+
+        router.push("/finance");
+      })
+      .catch(function (error) {
+        errorMessageApi.value = error;
+      });
+  } catch (error) {
+    errorMessageApi.value = error.message;
+  }
+  isLoading.value = false;
 };
 </script>
 
 <template>
-  <div class="login">
+  <div class="register">
     <img class="finance-logo" :src="finance" alt="Finance" />
-    <h1>Login</h1>
-    <h3>Enter your E-mail and Password</h3>
+    <h1>Register</h1>
     <h4 class="red-error">{{ errorMessageApi }}</h4>
-    <Form @submit="login">
+    <Form @submit="register">
       <div class="form-input">
         <label for="username">E-mail</label>
         <Field
@@ -51,6 +71,17 @@ const login = async (values) => {
         <ErrorMessage class="red-error" name="email" />
       </div>
       <div class="form-input">
+        <label for="name">Name</label>
+        <Field
+          id="name"
+          name="name"
+          type="text"
+          v-model="name"
+          :rules="validateName"
+        />
+        <ErrorMessage class="red-error" name="name" />
+      </div>
+      <div class="form-input">
         <label>Password</label>
         <Field
           type="password"
@@ -60,9 +91,9 @@ const login = async (values) => {
         />
         <ErrorMessage class="red-error" name="password" />
       </div>
-      <router-link to="/register">Create Account</router-link>
+      <router-link to="/login">Already have an account</router-link>
       <div class="submit-action">
-        <button type="submit">Login</button>
+        <button :disabled="isLoading" type="submit">Register</button>
       </div>
     </Form>
   </div>
@@ -91,6 +122,10 @@ input:focus {
 }
 form {
   padding-top: 24px;
+}
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed !important;
 }
 button[type="submit"] {
   border: none;
@@ -123,7 +158,7 @@ button[type="submit"]:hover {
   flex-direction: column;
   margin: 12px 0 24px;
 }
-.login {
+.register {
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -134,7 +169,7 @@ button[type="submit"]:hover {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 @media screen and (max-width: 500px) {
-  .login {
+  .register {
     width: 100vw;
     height: 100vh;
     justify-content: center;

@@ -1,18 +1,30 @@
 <script setup>
-import { useRouter, RouterLink } from "vue-router";
 import finance from "../assets/finance.svg";
-import user from "../assets/user.svg";
+import user_icon from "../assets/user.svg";
 import user_white from "../assets/user_white.svg";
 import arrow_down from "../assets/arrow_down.svg";
 import logout from "../assets/logout.svg";
 import logout_white from "../assets/logout_white.svg";
 import close from "../assets/close.svg";
-import { ref } from "vue";
+import { useRouter, RouterLink } from "vue-router";
+import { getAuth, onIdTokenChanged } from "firebase/auth";
+import { getUserLocalStorage } from "../helper/helper";
+import { computed, ref } from "vue";
 
 const showModal = ref(false);
 const showModalMobile = ref(false);
+const user = computed(() => getUserLocalStorage());
+const auth = getAuth();
 
 const router = useRouter();
+
+onIdTokenChanged(auth, async (userCredential) => {
+  if (userCredential) {
+    if (user.value.token != userCredential.accessToken) {
+      handleLogout();
+    }
+  }
+});
 
 const handleLogout = () => {
   localStorage.removeItem("user");
@@ -22,12 +34,12 @@ const handleLogout = () => {
 
 <template>
   <div class="navbar-container">
-    <div class="navbar">
+    <div class="navbar" v-if="user">
       <img class="finance-logo" :src="finance" alt="Finance" />
       <div class="user" @click="showModal = !showModal">
-        <img class="user-icon" :src="user" alt="user" />
+        <img class="user-icon" :src="user_icon" alt="user" />
         <div class="user-info">
-          <span>Hugo Mendonça Pereira</span>
+          <span class="user-name">{{ user.name }}</span>
           <div class="user-arrow">
             <small class="black">Usuário</small>
             <img class="arrow-down-icon" :src="arrow_down" alt="arrow_down" />
@@ -43,7 +55,7 @@ const handleLogout = () => {
       <div v-show="showModalMobile" class="modal-user-mobile">
         <div class="user-mobile">
           <img class="user-white-icon" :src="user_white" alt="user_white" />
-          <span>Hugo Mendonça Pereira</span>
+          <span class="user-name">{{ user.name }}</span>
           <div class="user-arrow">
             <small>Usuário</small>
           </div>
@@ -91,9 +103,14 @@ const handleLogout = () => {
 .black {
   color: black !important;
 }
+.user-name {
+  font-weight: 600;
+  font-size: 1rem;
+}
 .modal-user {
   position: absolute;
   padding: 12px;
+  min-width: 120px;
   display: flex;
   justify-content: center;
   top: 2.9rem;
@@ -104,7 +121,7 @@ const handleLogout = () => {
 }
 .logout-icon {
   margin-left: 12px;
-  height: 25px;
+  height: 31px;
   width: 18px;
 }
 .logout-white-icon {
@@ -114,8 +131,9 @@ const handleLogout = () => {
 }
 .close-icon {
   position: absolute;
+  cursor: pointer;
   top: 15px;
-  right: 15px;
+  right: 45px;
   width: 25px;
   background: transparent;
   height: 25px;
@@ -137,6 +155,7 @@ const handleLogout = () => {
 .user-arrow {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 .arrow-down-icon {
   margin-left: 5px;

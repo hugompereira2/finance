@@ -16,14 +16,19 @@ const router = createRouter({
       component: () => import('../views/FinanceView.vue')
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/RegisterView.vue')
+    },
   ]
+})
+
+router.beforeEach(async (to, from) => {
+  const user = localStorage.getItem('user');
+
+  if (!user && to?.name !== 'home' && to?.name !== 'register') {
+    return { name: 'home' }
+  }
 })
 
 export default router
