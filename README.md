@@ -6,6 +6,10 @@
   </sub>
 </div>
 
+## Live
+
+ https://financefranq.netlify.app/
+
 ## 🚀 Technologies
 
 * [Vue](https://vuejs.org/)
