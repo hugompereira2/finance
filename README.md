@@ -6,6 +6,10 @@
   </sub>
 </div>
 
+## Summary
+
+The project uses the currency quotes API provided by hgbrasil. With this API, we can obtain up-to-date information on the values of major currencies relative to other currencies and easily convert them.
+
 ## Live
 
  https://financefranq.netlify.app/
